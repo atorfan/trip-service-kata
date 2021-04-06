@@ -9,8 +9,14 @@ import java.util.List;
 
 public class TripService {
 
+	private final UserSession userSession;
+
+	public TripService(final UserSession userSession) {
+		this.userSession = userSession;
+	}
+
 	public List<Trip> getTripsByUser(final User user) throws UserNotLoggedInException {
-		final User loggedUser = this.getSession().getLoggedUser();
+		final User loggedUser = this.userSession.getLoggedUser();
 		if (loggedUser == null) {
 			throw new UserNotLoggedInException();
 		}
@@ -27,9 +33,4 @@ public class TripService {
 		}
 		return tripList;
 	}
-
-	protected UserSession getSession() {
-		return UserSession.getInstance();
-	}
-
 }

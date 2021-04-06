@@ -6,6 +6,8 @@ import org.craftedsw.tripservicekata.user.UserSession;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
@@ -18,10 +20,9 @@ class TripServiceTest {
 		given(userSession.getLoggedUser())
 				.willReturn(null);
 
-		final TripService tripService = Mockito.spy(TripService.class);
-		given(tripService.getSession())
-				.willReturn(userSession);
+		final TripService tripService = new TripService(userSession);
 
+		// When, Then
 		assertThrows(UserNotLoggedInException.class, () ->
 				tripService.getTripsByUser(new User())
 		);
